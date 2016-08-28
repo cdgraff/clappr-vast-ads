@@ -1,0 +1,130 @@
+.settings_menu[data-settings-menu] {
+  float: right;
+  position: relative;
+  // Questionable, hacky way to make the gap between settings and volume buttons.
+  // TODO fix this in a proper manner
+  width: 37px;
+
+  button[data-settings-menu-button] {
+    transform: scale(.8)
+    // background-color: transparent;
+    // color: #fff;
+    // font-family: 'Roboto', "Open Sans", Arial, sans-serif;
+    // -webkit-font-smoothing: antialiased;
+    // border: none;
+    // font-size: 10px;
+
+    // &:hover {
+    //   color: #c9c9c9;
+    // }
+  }
+
+  &> .container {
+    position: absolute;
+    bottom: 45px;
+    right: 0;
+    width: 180px;
+    padding: 10px;
+    border: 1px solid #333;
+    background-color: #2a3143;
+    display: none;
+    // height: 130px;
+
+    text-align: left;
+
+    .section {
+      display: flex;
+      align-items: center;
+      padding: 10px 0 10px;
+      font-size: 12px;
+      // border-bottom: 1px solid rgba(255,255,255, .2);
+      color: #ddd;
+
+      .header {
+        padding: 0 15px;
+        line-height: 20px;
+        margin: 0 0 10px;
+        color: #ddd;
+        white-space: nowrap;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .label {
+        display: inline-block;
+        width: 50%;
+        text-align: right;
+        margin-right: 5px;
+      }
+
+      .selector {
+        display: inline-block;
+        margin-left: 5px;
+        // width: 30%;
+        cursor: pointer;
+        background-color: #e6e6e6;
+        border: 1px solid #333;
+        padding: 4px 8px;
+        color: #222;
+        font-weight: 300;
+      }
+    }
+
+    &:after {
+      font-size: 1em;
+      content: "";
+      position: absolute;
+      bottom: -12px;
+      right: 0;
+      margin-right: 9px;
+      width: 0;
+      height: 0;
+      border: 6px solid #2a3143;
+      border-bottom-color: transparent;
+      border-left-color: transparent;
+      border-right-color: transparent;
+      z-index: -1;
+    }
+  }
+
+  &> ul {
+    text-align: left;
+    position: absolute;
+    bottom: 25px;
+    border: 1px solid #333;
+    display: none;
+    background-color: white;
+  }
+
+  li {
+    font-size: 10px;
+
+    &[data-title] {
+      background-color: #c3c2c2;
+      padding: 5px;
+      color: white
+    }
+
+    a {
+      color: #444;
+      padding: 5px 50px 5px 3px;
+      display: block;
+      text-decoration: none;
+
+      &:hover {
+        background-color: #706db5;
+        color: white;
+        a {
+          color: white;
+          text-decoration: none;
+        }
+      }
+    }
+
+    &.current a {
+      color: white;
+      background-color: #4641b6;
+    }
+
+  }
+}
