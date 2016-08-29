@@ -24,11 +24,12 @@ export default class SettingsMenu extends UICorePlugin {
 
   bindEvents() {
     this.listenTo(this.core.mediaControl, Events.MEDIACONTROL_RENDERED, this.render);
+    this.listenTo(this.core.mediaControl, Events.MEDIACONTROL_HIDE, this.hideSettingsMenu);
   }
 
   unBindEvents() {
     this.stopListening(this.core, Events.MEDIACONTROL_RENDERED)
-
+    this.stopListening(this.core, Events.MEDIACONTROL_HIDE)
   }
 
   reload() {
