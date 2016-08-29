@@ -14,13 +14,11 @@
     position: absolute;
     bottom: 45px;
     right: 0;
-    width: 180px;
-    padding: 10px;
-    border: 1px solid #333;
-    background-color: #2a3143;
+    width: 230px;
+    padding: 10px 25px 10px 10px;
+    border: 1px solid #2a3143;
+    background-color: #3f5778;
     display: none;
-    // height: 130px;
-
     text-align: left;
 
     .section {
@@ -28,7 +26,6 @@
       align-items: center;
       padding: 10px 0 10px;
       font-size: 12px;
-      // border-bottom: 1px solid rgba(255,255,255, .2);
       color: #ddd;
 
       .header {
@@ -70,11 +67,11 @@
       margin-right: 9px;
       width: 0;
       height: 0;
-      border: 6px solid #2a3143;
+      border: 6px solid #3f5778;
       border-bottom-color: transparent;
       border-left-color: transparent;
       border-right-color: transparent;
-      z-index: -1;
+      z-index: 0;
     }
   }
 
