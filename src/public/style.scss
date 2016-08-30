@@ -13,13 +13,13 @@
   &> .container {
     position: absolute;
     bottom: 45px;
-    right: 0;
+    right: -125px;
     width: 230px;
     padding: 10px 25px 10px 10px;
     border: 1px solid #2a3143;
     background-color: #3f5778;
     display: none;
-    text-align: left;
+    opacity: .9;
 
     .section {
       display: flex;
@@ -63,8 +63,7 @@
       content: "";
       position: absolute;
       bottom: -12px;
-      right: 0;
-      margin-right: 9px;
+      right: 133px;
       width: 0;
       height: 0;
       border: 6px solid #3f5778;
