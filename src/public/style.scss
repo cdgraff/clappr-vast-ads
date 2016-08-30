@@ -15,16 +15,17 @@
     bottom: 45px;
     right: -125px;
     width: 230px;
-    padding: 10px 25px 10px 10px;
-    border: 1px solid #2a3143;
+    padding: 15px 20px;
+    border: 1px solid rgba(42, 49, 67, 0.65);
     background-color: #3f5778;
     display: none;
     opacity: .85;
+    border-radius: 5px;
 
     .section {
       display: flex;
       align-items: center;
-      padding: 10px 0 10px;
+      padding: 7px 0;
       font-size: 12px;
       color: #ddd;
 
@@ -41,20 +42,21 @@
       .label {
         display: inline-block;
         width: 50%;
-        text-align: right;
+        text-align: left;
         margin-right: 5px;
       }
 
       .selector {
         display: inline-block;
         margin-left: 5px;
-        // width: 30%;
+        width: 96px;
         cursor: pointer;
         background-color: #e6e6e6;
         border: 1px solid #333;
-        padding: 4px 5px;
+        padding: 5px;
         color: #222;
         text-shadow: 0 0 1px white;
+        border-radius: 3px;
       }
     }
 
