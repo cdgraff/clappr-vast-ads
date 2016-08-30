@@ -42,7 +42,7 @@ export default class SettingsMenu extends UICorePlugin {
 
     this.$el.html(this.template({'title': 'Settings Menu'}))
     this.$el.append(style)
-    this.core.mediaControl.$('.media-control-right-panel').append(this.el)
+    this.core.mediaControl.$('.media-control-right-panel > button[data-hd-indicator]').before(this.el)
 
     return this
   }
