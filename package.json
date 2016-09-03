@@ -1,7 +1,7 @@
 {
   "name": "settings-menu",
   "description": "Twitch-like settings menu for Clappr. Used by facecast.net",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "license": "MIT",
   "repository": "NicholasAsimov/clappr-settings-menu",
   "main": "index.js",
