@@ -12,10 +12,13 @@
     parentId: '#player-wrapper',
 
     plugins: {
-      core: [LevelSelector],
+      core: [VastAds],
     },
-
-    width: 640, height: 360,
+    VastAdsConfig: {
+      AdXMLUrl: 'http://a.adwolf.ru/getCode?pp=r&ps=ckn&p2=df&pr=etvucsn'
+    },
+    width: 640,
+    height: 360,
     hideMediaControl: false,
     autoPlay: true
   });

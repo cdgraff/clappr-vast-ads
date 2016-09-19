@@ -1,6 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
-var filename = 'settings-menu.js'
+var filename = 'vast-ads.js'
 
 module.exports = {
   entry: path.resolve(__dirname, 'index.js'),
@@ -40,7 +40,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '<%=baseUrl%>/',
     filename: filename,
-    library: 'SettingsMenu',
+    library: 'VastAds',
     libraryTarget: 'umd',
   },
 };

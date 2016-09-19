@@ -1,12 +1,12 @@
 {
-  "name": "settings-menu",
-  "description": "Twitch-like settings menu for Clappr. Used by facecast.net",
-  "version": "0.1.0",
+  "name": "vast-ads",
+  "description": "VAST ads support for Clappr",
+  "version": "0.0.1",
   "license": "MIT",
-  "repository": "NicholasAsimov/clappr-settings-menu",
+  "repository": "NicholasAsimov/clappr-vast-ads",
   "main": "index.js",
   "scripts": {
-    "release": "node_modules/.bin/webpack --progress -d --optimize-minimize --optimize-dedupe --output-filename settings-menu.min.js",
+    "release": "node_modules/.bin/webpack --progress -d --optimize-minimize --optimize-dedupe --output-filename vast-ads.min.js",
     "build": "node_modules/.bin/webpack --progress",
     "watch": "node_modules/.bin/webpack --progress --watch",
     "test": "karma start --single-run --browsers Chrome",
@@ -24,7 +24,8 @@
   ],
   "dependencies": {
     "clappr": "latest",
-    "clappr-zepto": "latest"
+    "clappr-zepto": "latest",
+    "vast-client": "^1.3.8"
   },
   "devDependencies": {
     "babel-core": "^5.8.25",
