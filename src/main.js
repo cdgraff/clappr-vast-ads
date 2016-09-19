@@ -79,7 +79,7 @@ export default class VastAds extends UICorePlugin {
   }
 
   initVAST() {
-    console.log('initializing VAST')
+    // console.log('initializing VAST')
     if (!this._options.VastAdsConfig || this._options.VastAdsConfig.AdXMLUrl == '') {
       return
     }
@@ -129,28 +129,30 @@ export default class VastAds extends UICorePlugin {
 
                   this.listenTo(this.core.mediaControl.container, Events.CONTAINER_TIMEUPDATE, progress => {
                     if (Math.round(progress.current) === 10) {
-                      $('body').prepend($('<button/>', {
-                        id: 'ad-skip',
-                        class: 'plugin-ads',
-                        text: 'Skip Ad',
-                        style: `position: absolute;
-                                z-index: 3;
-                                bottom: 80px;
-                                right: 30px;
-                                background-color: #637aad;
-                                border: 1px solid #314179;
-                                display: inline-block;
-                                cursor: pointer;
-                                color: #ffffff;
-                                font-family: sans-serif;
-                                font-size: 28px;
-                                font-weight: bold;
-                                padding: 22px 42px;
-                                text-decoration: none;`
-                      }).click(() => {
-                        this.vastTracker.skip()
-                        this.core.getCurrentPlayback().seekPercentage(100)
-                      }))
+                      if ($('#ad-skip').length) {
+                        $('body').prepend($('<button/>', {
+                          id: 'ad-skip',
+                          class: 'plugin-ads',
+                          text: 'Skip Ad',
+                          style: `position: absolute;
+                                  z-index: 3;
+                                  bottom: 80px;
+                                  right: 30px;
+                                  background-color: #637aad;
+                                  border: 1px solid #314179;
+                                  display: inline-block;
+                                  cursor: pointer;
+                                  color: #ffffff;
+                                  font-family: sans-serif;
+                                  font-size: 28px;
+                                  font-weight: bold;
+                                  padding: 22px 42px;
+                                  text-decoration: none;`
+                        }).click(() => {
+                          this.vastTracker.skip()
+                          this.core.getCurrentPlayback().seekPercentage(100)
+                        }))
+                      }
                     }
                   })
 
@@ -169,7 +171,8 @@ export default class VastAds extends UICorePlugin {
                               color: white;
                               background: rgba(0, 0, 0, .5);
                               padding: 10px;
-                              font-family: sans-serif;`
+                              font-family: sans-serif;
+                              font-size: 36px;`
                     }))
                   })
 
