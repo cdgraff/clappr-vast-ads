@@ -124,16 +124,16 @@ export default class VastAds extends UICorePlugin {
                   this.listenTo(this.core.mediaControl.container, Events.CONTAINER_TIMEUPDATE, progress => this.vastTracker.setProgress(progress.current))
 
                   if (this._options.mute) {
-                    // this.core.getCurrentPlayback().volume(50)
+                    this.core.getCurrentPlayback().volume(50)
                   }
 
                   this.listenTo(this.core.mediaControl.container, Events.CONTAINER_TIMEUPDATE, progress => {
                     if (Math.round(progress.current) === 10) {
-                      if ($('#ad-skip').length) {
+                      if ($('#ad-skip').length === 0) {
                         $('body').prepend($('<button/>', {
                           id: 'ad-skip',
                           class: 'plugin-ads',
-                          text: 'Skip Ad',
+                          text: 'Skip Ad ➜',
                           style: `position: absolute;
                                   z-index: 3;
                                   bottom: 80px;
@@ -144,9 +144,9 @@ export default class VastAds extends UICorePlugin {
                                   cursor: pointer;
                                   color: #ffffff;
                                   font-family: sans-serif;
-                                  font-size: 28px;
+                                  font-size: 24px;
                                   font-weight: bold;
-                                  padding: 22px 42px;
+                                  padding: 15px 30px;
                                   text-decoration: none;`
                         }).click(() => {
                           this.vastTracker.skip()
@@ -166,13 +166,13 @@ export default class VastAds extends UICorePlugin {
                       text: 'Advertisement',
                       style: `position: absolute;
                               z-index: 3;
-                              top: 0;
+                              top: 40px;
                               left: 20px;
                               color: white;
                               background: rgba(0, 0, 0, .5);
                               padding: 10px;
                               font-family: sans-serif;
-                              font-size: 36px;`
+                              font-size: 32px;`
                     }))
                   })
 
