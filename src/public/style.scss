@@ -1,0 +1,50 @@
+.plugin-ads {
+  &.nonlinear {
+    position: absolute;
+    bottom: 50;
+    z-index: 3;
+    cursor: pointer;
+
+    & span {
+      // content: '&#10006;';
+      position: absolute;
+      top: -7px;
+      right: -7px;
+      color: black;
+      background: #fff;
+      padding: 0 2px;
+      opacity: .8;
+      cursor: pointer;
+      font-size: 15px;
+    }
+  }
+
+  &.linear-skip {
+    position: absolute;
+    z-index: 3;
+    bottom: 80px;
+    right: 30px;
+    background-color: #637aad;
+    border: 1px solid #314179;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 15px 30px;
+    text-decoration: none;
+  }
+
+  &.linear-text {
+    position: absolute;
+    z-index: 3;
+    top: 40px;
+    left: 20px;
+    color: white;
+    background: rgba(0, 0, 0, .5);
+    padding: 10px;
+    font-family: sans-serif;
+    font-size: 32px;
+  }
+}

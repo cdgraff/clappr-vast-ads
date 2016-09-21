@@ -1,4 +1,4 @@
-import {Events, UICorePlugin} from 'Clappr'
+import {Events, Styler, UICorePlugin} from 'Clappr'
 import pluginHtml from './public/vast-ads.html'
 import pluginStyle from './public/style.scss'
 import VastClient from 'vast-client'
@@ -20,6 +20,21 @@ export default class VastAds extends UICorePlugin {
   get events() {
     return {
       'click [data-settings-menu-button]': 'onShowSettingsMenu'
+    }
+  }
+
+  constructor(...args) {
+    super(...args)
+
+    this.i18n = {
+      'en': {
+        'vast_ads_text': 'Advertisement',
+        'vast_ads_skip': 'Skip ad'
+      },
+      'ru': {
+        'vast_ads_text': 'Реклама',
+        'vast_ads_skip': 'Пропустить'
+      }
     }
   }
 
@@ -55,7 +70,13 @@ export default class VastAds extends UICorePlugin {
       throw new Error('Failed to get Clappr internal click-to-pause plugin')
     }
 
+    this.renderStyles()
     this.initVAST()
+  }
+
+  renderStyles() {
+    const style = Styler.getStyleFor(pluginStyle, {baseUrl: this.core.options.baseUrl})
+    $('[data-player]').append(style)
   }
 
   _disableControls() {
@@ -79,28 +100,31 @@ export default class VastAds extends UICorePlugin {
   }
 
   initVAST() {
-    // console.log('initializing VAST')
     if (!this._options.VastAdsConfig || this._options.VastAdsConfig.AdXMLUrl == '') {
       return
     }
 
+    this.renderStyles()
+
     const originalSource = this._options.source
     const vastUrl = this._options.VastAdsConfig.AdXMLUrl
-    const container = this.container || this.core.mediaControl.container
-    const playback = this.core.getCurrentPlayback()
 
     VastClient.client.get(vastUrl, response => {
       if (response) {
-        for (var adIdx = 0, adLen = response.ads.length; adIdx < adLen; adIdx++) {
-          var ad = response.ads[adIdx]
+        for (let adIdx in response.ads) {
+          const ad = response.ads[adIdx]
 
-          for (var creaIdx = 0, creaLen = ad.creatives.length; creaIdx < creaLen; creaIdx++) {
-            var creative = ad.creatives[creaIdx]
+          for (let creaIdx in ad.creatives) {
+            const creative = ad.creatives[creaIdx]
+
+            // Track ad events and send them
+            this.vastTracker = new VastClient.tracker(ad, creative)
 
             switch (creative.type) {
               case "linear":
-                for (var mfIdx = 0, mfLen = creative.mediaFiles.length; mfIdx < mfLen; mfIdx++) {
-                  var mediaFile = creative.mediaFiles[mfIdx]
+                for (let mfIdx in creative.mediaFiles) {
+                  const mediaFile = creative.mediaFiles[mfIdx]
+
                   if (mediaFile.mimeType != "video/mp4") {
                     continue
                   }
@@ -108,14 +132,12 @@ export default class VastAds extends UICorePlugin {
                   // put player in ad mode
                   this.core.load(mediaFile.fileURL)
 
-                  // Track ad events and send them
-                  this.vastTracker = new VastClient.tracker(ad, creative)
                   // player.vastTracker.on('clickthrough', function(url) {
                   //   document.location.href = url
-                  // });
+                  // })
 
                   const pauseFn = () => {
-                    this.vastTracker.setPaused(true);
+                    this.vastTracker.setPaused(true)
                     this.listenToOnce(this.core.getCurrentPlayback(), Events.PLAYBACK_PLAY, () => this.vastTracker.setPaused(false))
                   }
 
@@ -123,31 +145,13 @@ export default class VastAds extends UICorePlugin {
                   this.listenTo(this.core.getCurrentPlayback(), Events.PLAYBACK_PAUSE, pauseFn)
                   this.listenTo(this.core.mediaControl.container, Events.CONTAINER_TIMEUPDATE, progress => this.vastTracker.setProgress(progress.current))
 
-                  if (this._options.mute) {
-                    this.core.getCurrentPlayback().volume(50)
-                  }
-
                   this.listenTo(this.core.mediaControl.container, Events.CONTAINER_TIMEUPDATE, progress => {
                     if (Math.round(progress.current) === 10) {
                       if ($('#ad-skip').length === 0) {
-                        $('body').prepend($('<button/>', {
+                        $('[data-player]').prepend($('<button/>', {
                           id: 'ad-skip',
-                          class: 'plugin-ads',
-                          text: 'Skip Ad ➜',
-                          style: `position: absolute;
-                                  z-index: 3;
-                                  bottom: 80px;
-                                  right: 30px;
-                                  background-color: #637aad;
-                                  border: 1px solid #314179;
-                                  display: inline-block;
-                                  cursor: pointer;
-                                  color: #ffffff;
-                                  font-family: sans-serif;
-                                  font-size: 24px;
-                                  font-weight: bold;
-                                  padding: 15px 30px;
-                                  text-decoration: none;`
+                          class: 'plugin-ads linear-skip',
+                          text: (this._options.VastAdsConfig.skipMessage || this.i18n[this._options.language || 'en']['vast_ads_skip']) +  ' ➜'
                         }).click(() => {
                           this.vastTracker.skip()
                           this.core.getCurrentPlayback().seekPercentage(100)
@@ -160,19 +164,10 @@ export default class VastAds extends UICorePlugin {
                     // this.core.mediaControl.container.disableMediaControl()
                     this.core.mediaControl.container.settings.seekEnabled = false
                     this.core.mediaControl.container.getPlugin('click_to_pause').disable()
-                    $('body').prepend($('<h1/>', {
+                    $('[data-player]').prepend($('<h1/>', {
                       id: 'ad-text',
-                      class: 'plugin-ads',
-                      text: 'Advertisement',
-                      style: `position: absolute;
-                              z-index: 3;
-                              top: 40px;
-                              left: 20px;
-                              color: white;
-                              background: rgba(0, 0, 0, .5);
-                              padding: 10px;
-                              font-family: sans-serif;
-                              font-size: 32px;`
+                      class: 'plugin-ads linear-text',
+                      text: this._options.VastAdsConfig.textMessage || this.i18n[this._options.language || 'en']['vast_ads_text']
                     }))
                   })
 
@@ -184,8 +179,49 @@ export default class VastAds extends UICorePlugin {
                 }
                 break
 
-              case "non-linear":
-                // TODO
+              case 'nonlinear':
+                // console.log('non-linear ad')
+                const nonlinearStart = +this._options.VastAdsConfig.nonlinearStart || 60
+
+                for (let mfIdx in creative.variations) {
+                  const mediaFile = creative.variations[mfIdx]
+                  const $adElement = $('<div/>', {
+                    id: mediaFile.id,
+                    class: 'plugin-ads nonlinear',
+                    style: `
+                      left: ${(this.core.el.clientWidth / 2) - (+mediaFile.width / 2)};
+                      height: ${mediaFile.height};
+                      width: ${mediaFile.width};
+                      background: url(${mediaFile.staticResource});
+                    `
+                  }).click(() => {
+                    this.vastTracker.click()
+                    window.open(mediaFile.nonlinearClickThroughURLTemplate)
+                  })
+
+                  $adElement.append($('<span>&#10006</span>').click(function(e) {
+                    e.stopPropagation()
+                    $(this).parent().remove()
+                  }))
+
+                  this.listenToOnce(this.core.getCurrentPlayback(), Events.PLAYBACK_PLAY, () => {
+                    setTimeout(() => {
+                      this.vastTracker.load()
+                      $('[data-player]').prepend($adElement)
+                    }, nonlinearStart * 1000)
+                  })
+
+                  // this.listenTo(this.core.mediaControl.container, Events.CONTAINER_TIMEUPDATE, progress => {
+                  //   if (Math.round(progress.current) === nonlinearStart) {
+                  //     if ($('#' + mediaFile.id).length === 0) {
+                  //       this.vastTracker.load()
+                  //       $('[data-player]').prepend($adElement)
+                  //     }
+                  //   }
+                  // })
+
+                }
+
                 break
 
               case "companion":
