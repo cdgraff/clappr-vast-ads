@@ -189,9 +189,9 @@ export default class VastAds extends UICorePlugin {
                     id: mediaFile.id,
                     class: 'plugin-ads nonlinear',
                     style: `
-                      left: ${(this.core.el.clientWidth / 2) - (+mediaFile.width / 2)};
-                      height: ${mediaFile.height};
-                      width: ${mediaFile.width};
+                      left: ${(this.core.el.clientWidth / 2) - (+mediaFile.width / 2)}px;
+                      height: ${mediaFile.height}px;
+                      width: ${mediaFile.width}px;
                       background: url(${mediaFile.staticResource});
                     `
                   }).click(() => {
@@ -272,7 +272,7 @@ export default class VastAds extends UICorePlugin {
 
           }
 
-          if (player.vastTracker) {
+          if (this.vastTracker) {
             break
           } else {
             // Inform ad server we can't find suitable media file for this ad
@@ -281,7 +281,7 @@ export default class VastAds extends UICorePlugin {
         }
       }
 
-      if (!player.vastTracker) {
+      if (!this.vastTracker) {
         // No pre-roll, start video
       }
     })
